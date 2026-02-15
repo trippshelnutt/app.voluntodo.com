@@ -94,8 +94,9 @@ test.describe('Accessibility - WCAG 2.1 AA', () => {
       
       if (id) {
         const label = page.locator(`label[for="${id}"]`);
+        const ariaLabel = await input.getAttribute('aria-label');
         // If input has id, should have associated label
-        expect((await label.count()) + (await input.getAttribute('aria-label')) ? 1 : 0).toBeGreaterThanOrEqual(1);
+        expect((await label.count()) + (ariaLabel ? 1 : 0)).toBeGreaterThanOrEqual(1);
       }
     }
   });
