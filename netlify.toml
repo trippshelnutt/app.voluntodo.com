@@ -1,15 +1,16 @@
 [build]
   command = "npm run build"
   publish = ".next/standalone"
+  environment = { NODE_VERSION = "24" }
 
 [context.production]
   command = "npm run build"
-  environment = { NEXT_PUBLIC_ENV = "production", NEXT_PUBLIC_SITE_URL = "https://app.voluntodo.com" }
+  environment = { NEXT_PUBLIC_ENV = "production", NEXT_PUBLIC_SITE_URL = "https://app.voluntodo.com", NODE_VERSION = "24" }
 
 [context.staging]
   command = "npm run build"
-  environment = { NEXT_PUBLIC_ENV = "staging", NEXT_PUBLIC_SITE_URL = "https://staging.voluntodo.app" }
+  environment = { NEXT_PUBLIC_ENV = "staging", NEXT_PUBLIC_SITE_URL = "https://staging.voluntodo.app", NODE_VERSION = "24" }
 
 [context.deploy-preview]
   command = "npm run build"
-  environment = { NEXT_PUBLIC_ENV = "preview" }
+  environment = { NEXT_PUBLIC_ENV = "preview", NODE_VERSION = "24" }

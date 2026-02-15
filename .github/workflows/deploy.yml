@@ -16,7 +16,7 @@ jobs:
       - name: Use Node.js LTS
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
@@ -43,7 +43,7 @@ jobs:
       - name: Use Node.js LTS
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
@@ -58,7 +58,7 @@ jobs:
       - name: Deploy to Netlify (Staging)
         uses: nwtgck/actions-netlify@v2.1
         with:
-          publish-dir: './.next/out'
+          publish-dir: './.next/standalone'
           production-branch: main
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: 'Deploy to staging from ${{ github.ref }}'
@@ -94,7 +94,7 @@ jobs:
       - name: Use Node.js LTS
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
@@ -109,7 +109,7 @@ jobs:
       - name: Deploy to Netlify (Production)
         uses: nwtgck/actions-netlify@v2.1
         with:
-          publish-dir: './.next/out'
+          publish-dir: './.next/standalone'
           production-branch: main
           production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
