@@ -58,7 +58,7 @@ jobs:
       - name: Deploy to Netlify (Staging)
         uses: nwtgck/actions-netlify@v2.1
         with:
-          publish-dir: './.next/standalone'
+          publish-dir: './.next'
           production-branch: main
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: 'Deploy to staging from ${{ github.ref }}'
@@ -109,7 +109,7 @@ jobs:
       - name: Deploy to Netlify (Production)
         uses: nwtgck/actions-netlify@v2.1
         with:
-          publish-dir: './.next/standalone'
+          publish-dir: './.next'
           production-branch: main
           production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
