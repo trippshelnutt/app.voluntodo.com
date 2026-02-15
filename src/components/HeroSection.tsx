@@ -1,3 +1,4 @@
+import React from 'react';
 import ComingSoonBadge from './ComingSoonBadge';
 import { HERO_HEADLINE, HERO_SUBTITLE, CTA_TEXT, CTA_URL } from '@/src/lib/constants';
 

@@ -1,3 +1,4 @@
+import React from 'react';
 import { SITE_TITLE } from '@/src/lib/constants';
 
 export default function Navigation() {

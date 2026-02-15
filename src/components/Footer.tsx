@@ -1,3 +1,4 @@
+import React from 'react';
 import { FOOTER_TEXT, SOCIAL_LINKS } from '@/src/lib/constants';
 
 export default function Footer() {
