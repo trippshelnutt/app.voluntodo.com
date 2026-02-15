@@ -1,0 +1,73 @@
+name: Tests & Quality Checks
+
+on:
+  push:
+    branches: [main, 001-shared-todo-mvp]
+  pull_request:
+    branches: [main, 001-shared-todo-mvp]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test Suite
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Run TypeScript check
+        run: npm run type-check
+
+      - name: Run unit tests
+        run: npm run test:unit
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        if: always()
+        with:
+          files: ./coverage/coverage-final.json
+          fail_ci_if_error: false
+
+  build:
+    runs-on: ubuntu-latest
+    name: Build Test
+    needs: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: build-output
+          path: .next/
+          retention-days: 7
