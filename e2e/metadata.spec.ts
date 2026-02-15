@@ -17,11 +17,13 @@ test.describe('Metadata & SEO', () => {
 
   test('should have Open Graph tags', async ({ page }) => {
     await page.goto('/');
-    
+
     const ogTitle = await page.locator('meta[property="og:title"]').getAttribute('content');
-    const ogDescription = await page.locator('meta[property="og:description"]').getAttribute('content');
+    const ogDescription = await page
+      .locator('meta[property="og:description"]')
+      .getAttribute('content');
     const ogUrl = await page.locator('meta[property="og:url"]').getAttribute('content');
-    
+
     expect(ogTitle).toBeTruthy();
     expect(ogDescription).toBeTruthy();
     expect(ogUrl).toBeTruthy();
@@ -29,24 +31,24 @@ test.describe('Metadata & SEO', () => {
 
   test('should have Twitter Card tags', async ({ page }) => {
     await page.goto('/');
-    
+
     const twitterCard = await page.locator('meta[name="twitter:card"]').getAttribute('content');
     const twitterTitle = await page.locator('meta[name="twitter:title"]').getAttribute('content');
-    
+
     expect(twitterCard).toBeTruthy();
     expect(twitterTitle).toBeTruthy();
   });
 
   test('should have favicon', async ({ page }) => {
     await page.goto('/');
-    
-    const favicon = await page.locator('link[rel="icon"]');
-    expect(favicon).toBeVisible();
+
+    const favicon = page.locator('link[rel="icon"]');
+    await expect(favicon).toHaveCount(1);
   });
 
   test('should have robots meta tag', async ({ page }) => {
     await page.goto('/');
-    
+
     const robots = await page.locator('meta[name="robots"]').getAttribute('content');
     if (robots) {
       expect(robots).toContain('index');

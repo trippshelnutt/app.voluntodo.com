@@ -9,7 +9,7 @@ The deployment pipeline uses GitHub Actions to:
 1. **Test**: Run lint, type-check, unit tests
 2. **Build**: Create optimized Next.js static export
 3. **Deploy Staging**: Auto-deploy to `staging.voluntodo.app` on push to `main`
-4. **Deploy Production**: Manual deploy to `app.voluntodo.com` on git tags (v*)
+4. **Deploy Production**: Manual deploy to `app.voluntodo.com` on git tags (v\*)
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ The deployment pipeline uses GitHub Actions to:
 
 2. **GitHub Secrets**: Set these in repository settings (Settings → Secrets and variables → Actions)
    - `NETLIFY_AUTH_TOKEN` - Personal access token from Netlify
-   - `NETLIFY_SITE_ID_STAGE` - Staging site ID  
+   - `NETLIFY_SITE_ID_STAGE` - Staging site ID
    - `NETLIFY_SITE_ID_PROD` - Production site ID
 
 ### Netlify Account Setup
@@ -133,16 +133,17 @@ These are passed to the build process via the deploy workflow.
 
 ## Build Configuration
 
-The app is configured for static export in `next.config.ts`:
+The app is configured with `next.config.ts`:
 
 ```typescript
 const nextConfig = {
-  output: 'export', // Static export for Netlify
-  // ... other config
+  // Uses Server-side rendering (not static export)
+  // Build output: .next/ directory
+  // Netlify will serve from .next/ directory
 };
 ```
 
-This outputs to `.next/out` which is deployed by the workflow.
+This outputs to `.next` which is deployed by the workflow and Netlify configuration.
 
 ## Deployment Checklist
 
@@ -153,7 +154,7 @@ Before deploying to production:
 - [ ] Lint passing: `npm run lint`
 - [ ] Build succeeds: `npm run build`
 - [ ] Changes reviewed and merged to `main`
-- [ ] Version tag created with proper format (v*.*.**)
+- [ ] Version tag created with proper format (v*.*.\*\*)
 - [ ] Git push includes the tag
 
 ## Monitoring Deployments
@@ -207,6 +208,7 @@ git push origin v1.0.1
 **Problem**: GitHub Actions can't access Netlify secrets
 
 **Solution**:
+
 1. Verify secrets are set in repository settings
 2. Check secret names match exactly (case-sensitive):
    - `NETLIFY_AUTH_TOKEN`
@@ -219,6 +221,7 @@ git push origin v1.0.1
 **Problem**: `npm run build` fails in GitHub Actions
 
 **Solution**:
+
 1. Check GitHub Actions logs for specific error
 2. Run build locally: `npm run build`
 3. Fix issues locally, commit, and push
@@ -229,6 +232,7 @@ git push origin v1.0.1
 **Problem**: Old version still showing on deployed site
 
 **Solution**:
+
 1. Check deployment history in Netlify
 2. Verify correct version was deployed
 3. Clear CDN cache in Netlify settings
@@ -239,6 +243,7 @@ git push origin v1.0.1
 **Problem**: Different Node.js version or environment
 
 **Solution**:
+
 1. Check GitHub Actions workflow Node.js version
 2. Ensure local Node.js version matches (18.x or 20.x)
 3. Clear node_modules and reinstall:
@@ -294,10 +299,13 @@ After production deployment:
    - Check console for errors
 
 2. **Run Health Check**
+
    ```bash
    curl https://app.voluntodo.com/api/health
    ```
+
    Should return:
+
    ```json
    {
      "status": "ok",
@@ -319,6 +327,7 @@ After production deployment:
 Runs on: `push` and `pull_request` to `main` and feature branches
 
 Steps:
+
 1. Checkout code
 2. Setup Node.js (18.x and 20.x)
 3. Install dependencies
@@ -331,15 +340,17 @@ Steps:
 
 ### Deploy Workflow (`deploy.yml`)
 
-Runs on: `push` to `main` and `push` with tags (v*)
+Runs on: `push` to `main` and `push` with tags (v\*)
 
 **Staging Job**:
+
 - Runs if: push to main branch
 - Builds with `NEXT_PUBLIC_SITE_URL=https://staging.voluntodo.app`
 - Deploys to staging Netlify site
 
 **Production Job**:
-- Runs if: push with tag matching v* pattern
+
+- Runs if: push with tag matching v\* pattern
 - Builds with `NEXT_PUBLIC_SITE_URL=https://app.voluntodo.com`
 - Deploys to production Netlify site
 - Creates GitHub release notes

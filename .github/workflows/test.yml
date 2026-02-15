@@ -29,13 +29,18 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint
-        continue-on-error: true
 
       - name: Run TypeScript check
         run: npm run type-check
 
       - name: Run unit tests
         run: npm run test:unit
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run E2E tests
+        run: npm run test:e2e
 
       - name: Upload coverage
         uses: codecov/codecov-action@v3

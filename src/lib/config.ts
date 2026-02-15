@@ -14,5 +14,8 @@ export function getEnvironment(): Environment {
 
 export function getCanonicalUrl(path: string = '/'): string {
   const env = getEnvironment();
-  return `${env.siteUrl}${path}`;
+  // Normalize URL joining: trim trailing slash from base and ensure leading slash on path
+  const baseUrl = env.siteUrl.endsWith('/') ? env.siteUrl.slice(0, -1) : env.siteUrl;
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return `${baseUrl}${normalizedPath}`;
 }

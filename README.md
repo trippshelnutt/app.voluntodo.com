@@ -17,7 +17,7 @@ A production-ready "Coming Soon" landing page for VolunTodo, built with Next.js 
 - **Framework**: Next.js 15.5.12 with App Router
 - **Language**: TypeScript 5.1+ (strict mode)
 - **Styling**: Tailwind CSS v3.4.0
-- **Testing**: 
+- **Testing**:
   - Unit: Vitest + React Testing Library
   - E2E: Playwright (chromium, firefox, webkit, mobile)
 - **Build**: Static export for Netlify
@@ -28,7 +28,7 @@ A production-ready "Coming Soon" landing page for VolunTodo, built with Next.js 
 ### Prerequisites
 
 - Node.js 18.x or 20.x
-- npm 9.x or higher
+- npm 10.x or higher
 
 ### Installation
 
@@ -251,6 +251,7 @@ GET /api/health
 ```
 
 Response:
+
 ```json
 {
   "status": "ok",
