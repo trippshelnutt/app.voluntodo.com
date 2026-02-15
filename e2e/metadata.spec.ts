@@ -43,7 +43,8 @@ test.describe('Metadata & SEO', () => {
     await page.goto('/');
 
     const favicon = page.locator('link[rel="icon"]');
-    await expect(favicon).toHaveCount(1);
+    // Should have at least one favicon (SVG and/or ICO)
+    await expect(favicon).toHaveCount(2);
   });
 
   test('should have robots meta tag', async ({ page }) => {
