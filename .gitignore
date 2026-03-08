@@ -43,3 +43,6 @@ Thumbs.db
 # Build artifacts
 *.log
 tsconfig.tsbuildinfo
+
+# Claude Code agent worktrees
+.claude/worktrees/
